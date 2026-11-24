@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulado ENADE — Sistemas de Informação</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" id="btn-home" role="button" tabindex="0" title="Voltar ao início">
+        <span class="brand-badge">ENADE</span>
+        <div class="brand-text">
+          <strong>Sistemas de Informação</strong>
+          <small>Simulado Objetivo &amp; Padrão de Resposta</small>
+        </div>
+      </div>
+
+      <nav class="topbar-nav" aria-label="Modos principais">
+        <button class="nav-pill active" data-mode="objetivas" id="nav-objetivas">
+          Provas Objetivas
+        </button>
+        <button class="nav-pill" data-mode="discursivas" id="nav-discursivas">
+          Discursivas (Resposta Esperada)
+        </button>
+      </nav>
+
+      <div class="topbar-actions">
+        <div class="timer-pill hidden" id="timer-display" aria-live="polite">
+          <span class="timer-icon">⏱</span>
+          <span id="timer-value">04:00:00</span>
+        </div>
+        <button class="icon-btn" id="btn-theme" title="Alternar tema claro/escuro" aria-label="Alternar tema">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="app-root">
+    <!-- Conteúdo renderizado dinamicamente pelos módulos JS -->
+  </main>
+
+  <footer class="footer">
+    <p>
+      Baseado nas provas oficiais do <strong>ENADE / INEP — Bacharelado em Sistemas de Informação (2017 e 2021)</strong>.
+      Questões anuladas no gabarito oficial são contabilizadas como válidas para todos os participantes.
+    </p>
+  </footer>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
