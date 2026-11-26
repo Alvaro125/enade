@@ -73,7 +73,9 @@ export const exam2017Objective = [
     answer: 'B',
     bodyHtml: `
       <p>Sobre a televisão, considere a tirinha (Texto 1) e a análise crítica de N. B. Peixoto (Texto 2):</p>
-      <p><strong>Texto 1 (Tirinha):</strong> Um personagem elogia o período curto de atenção da televisão, dizendo que se algo é complicado demais para ser explicado em dez segundos, provavelmente não vale a pena saber, e que não pode ficar pensando num assunto por minutos porque é ocupado — enquanto o outro personagem lembra que ele está sentado ali há três horas, pensando a seis pensamentos por minuto.</p>
+    `,
+    diagram: '2017-q04',
+    postDiagramHtml: `
       <p><strong>Texto 2:</strong> Descreve a televisão como um contínuo de imagens no qual telejornais, anúncios, novelas e transmissões esportivas se misturam e mal se distinguem, transformando o espetáculo na própria sequência vertiginosa de imagens.</p>
       <p>Com base nos textos 1 e 2, é correto afirmar que o tempo de recepção típico da televisão como veículo de comunicação estimula a</p>
     `,
@@ -91,10 +93,11 @@ export const exam2017Objective = [
     section: 'FG',
     answer: 'C',
     bodyHtml: `
-      <p>Hidrogéis (polímeros hidrorretentores) são materiais poliméricos em forma de pó, grão ou fragmentos usados na agricultura desde os anos 1950. Podem ser criados a partir de polímeros naturais (ecologicamente viáveis, mas ainda não comercialmente) ou sintetizados em laboratório (poliacrilatos).</p>
-      <p><strong>Infográfico — Por dentro dos hidrogéis:</strong> (1) Quando hidratados, absorvem água e adquirem consistência gelatinosa; (2) Os modelos comerciais são feitos de poliacrilatos; (3) No plantio, o hidrogel seco é misturado ao solo onde irá a muda ou semente — no Brasil, usado principalmente em florestas de eucalipto e com viabilidade comprovada na cafeicultura; (4) Quando a lavoura é hidratada pela chuva ou irrigação, o polímero absorve o líquido e o libera gradualmente às raízes. <strong>Vantagens:</strong> permite cultivo em regiões áridas com pouca chuva, reduz a frequência de irrigação, diminui mortalidade de mudas na estiagem e favorece o crescimento das plantas.</p>
-      <p>A partir das informações apresentadas, assinale a opção correta.</p>
+      <p>Hidrogéis (polímeros hidrorretentores) são materiais poliméricos em forma de pó, grão ou fragmentos usados na agricultura desde os anos 1950. Podem ser criados a partir de polímeros naturais (ecologicamente viáveis, mas ainda não comercialmente) ou sintetizados em laboratório.</p>
+      <p>No infográfico abaixo, explica-se como os polímeros superabsorventes, quando misturados ao solo, podem viabilizar culturas agrícolas em regiões áridas:</p>
     `,
+    diagram: '2017-q05',
+    postDiagramHtml: `<p>A partir das informações apresentadas, assinale a opção correta.</p>`,
     options: [
       { letter: 'A', html: 'O uso do hidrogel, em caso de estiagem, propicia a mortalidade dos pés de café.' },
       { letter: 'B', html: 'O hidrogel criado a partir de polímeros naturais deve ter seu uso restrito a solos áridos.' },

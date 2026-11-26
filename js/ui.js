@@ -417,6 +417,7 @@ export function renderMindMap(root) {
       node.title.toLowerCase().includes(q) ||
       node.summary.toLowerCase().includes(q) ||
       node.examTip.toLowerCase().includes(q) ||
+      (node.detailsHtml || '').toLowerCase().includes(q) ||
       node.topics.some((t) => t.toLowerCase().includes(q))
     );
   };
@@ -504,9 +505,32 @@ export function renderMindMap(root) {
                     <ul class="mm-topics">
                       ${node.topics.map((t) => `<li>${t}</li>`).join('')}
                     </ul>
+                    ${
+                      node.detailsHtml
+                        ? `<div class="mm-details">
+                             <strong>📖 Detalhamento para Estudo:</strong>
+                             ${node.detailsHtml}
+                           </div>`
+                        : ''
+                    }
                     <div class="mm-tip">
                       <strong>💡 Dica de Revisão:</strong> ${node.examTip}
                     </div>
+                    ${
+                      node.resources?.length
+                        ? `<div class="mm-resources">
+                             <strong>🔗 Links de Estudo:</strong>
+                             <div class="mm-resource-links">
+                               ${node.resources
+                                 .map(
+                                   (r) =>
+                                     `<a class="mm-link-pill" href="${r.url}" target="_blank" rel="noopener noreferrer">${r.label} ↗</a>`
+                                 )
+                                 .join('')}
+                             </div>
+                           </div>`
+                        : ''
+                    }
                     <div style="display:flex; justify-content:flex-end;">
                       <button class="btn btn-primary btn-sm" data-practice-area="${node.relatedArea}">
                         Praticar questões desta área →

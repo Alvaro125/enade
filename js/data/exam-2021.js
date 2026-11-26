@@ -22,7 +22,10 @@ export const exam2021Objective = [
     section: 'FG',
     answer: 'C',
     bodyHtml: `
-      <p><strong>Texto I (Infográfico Embrapa — "A hortaliça é feia ou estragada?"):</strong> Diferencia quando a hortaliça <em>está estragada</em> (amassada, machucada, quebrada, sem coloração apropriada) de quando apenas <em>é feia</em> (formato fora do padrão, pequenas cicatrizes superficiais).</p>
+      <p><strong>Texto I (Infográfico Embrapa):</strong></p>
+    `,
+    diagram: '2021-q02',
+    postDiagramHtml: `
       <p><strong>Texto II:</strong> Compara a comercialização de produtos esteticamente imperfeitos na Europa com o Brasil, onde chegam às bancas hortaliças contaminadas/machucadas. Pesquisadores alertam que exigir perfeição estética gera desperdício no campo; a solução é conscientizar varejistas e consumidores sobre quais aspectos realmente comprometem a qualidade.</p>
       <p>Considerando as informações apresentadas nos textos, avalie as asserções a seguir e a relação proposta entre elas.</p>
       <p><strong>I.</strong> O texto I sintetiza uma informação principal do texto II, ao apresentar critérios distintivos de alterações visuais que têm efeitos puramente estéticos em produtos alimentícios daquelas que têm implicações na qualidade desses produtos.</p>
@@ -45,7 +48,10 @@ export const exam2021Objective = [
     answer: 'B',
     bodyHtml: `
       <p><strong>Texto I:</strong> Explica que na década de 1940 surgiram ciclovias para abrir espaço aos veículos automotores, mas hoje o uso de bicicletas e ciclovias incentivado por políticas públicas surge como alternativa para melhorar a qualidade de vida nas metrópoles.</p>
-      <p><strong>Texto II (Charge):</strong> Mostra um ciclista em meio a carros engarrafados e placas de "CICLOVIAS..." e "CICLOFAIXAS...".</p>
+      <p><strong>Texto II:</strong></p>
+    `,
+    diagram: '2021-q03',
+    postDiagramHtml: `
       <p>Considerando as informações apresentadas e o uso de bicicletas como alternativa para melhorar a qualidade de vida nas cidades, avalie as afirmações a seguir.</p>
       <ol type="I">
         <li>Dado que as bicicletas são veículos que ocupam pouco espaço na malha viária, prescinde-se de investimentos públicos em construção de ciclovias, sendo prioritárias campanhas de conscientização de motoristas a respeito dos benefícios do uso da bicicleta como meio de transporte.</li>
@@ -89,7 +95,10 @@ export const exam2021Objective = [
     section: 'FG',
     answer: 'A',
     bodyHtml: `
-      <p>Dados do Ministério da Saúde (2017) mostram que a mortalidade por suicídio na população indígena foi cerca de três vezes maior que a média nacional (15,2 vs. 5,7 por 100 mil), sendo 44,8% entre 10 e 19 anos. O mapa de distribuição (2010–2014, faixa de 10 a 14 anos) concentra as maiores ocorrências no Amazonas (AM), Roraima (RR) e Mato Grosso do Sul (MS).</p>
+      <p>Dados do Ministério da Saúde (2017) mostram que a mortalidade por suicídio na população indígena foi cerca de três vezes maior que a média nacional (15,2 vs. 5,7 por 100 mil), sendo 44,8% entre 10 e 19 anos. O mapa a seguir apresenta a distribuição dos óbitos por suicídio entre crianças e adolescentes indígenas no Brasil (2010–2014):</p>
+    `,
+    diagram: '2021-q05',
+    postDiagramHtml: `
       <p>Considerando as informações apresentadas e o alto índice de suicídio da população indígena, avalie as afirmações a seguir.</p>
       <ol type="I">
         <li>O elevado índice de suicídios entre crianças e adolescentes indígenas no país evidencia a necessidade de ações com foco nos direitos fundamentais desses indivíduos.</li>
