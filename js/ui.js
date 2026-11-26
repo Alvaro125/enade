@@ -1,5 +1,7 @@
 import { state, questionKey, isQuestionCorrect, calculateResults, formatTime } from './state.js';
 import { diagrams } from './data/diagrams.js';
+import { studyGuides, getAvailableAreas } from './data/study-guides.js';
+import { enade2026Info, mindMapBranches } from './data/mindmap-2026.js';
 
 function renderDiagramIfAny(diagramId) {
   if (!diagramId || !diagrams[diagramId]) return '';
@@ -60,6 +62,17 @@ export function renderSetup(root, hasSavedSession) {
               <input type="radio" name="scope" value="ce" ${c.scope === 'ce' ? 'checked' : ''}>
               <span><strong>Somente Componente Específico (Q9 a Q35)</strong><small>Peso de 75% na nota final</small></span>
             </label>
+            <div style="margin-top: 0.25rem;">
+              <label for="sel-area" style="display:block; font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem;">
+                Filtrar por Área de Conhecimento (opcional):
+              </label>
+              <select id="sel-area" class="select-input">
+                <option value="all" ${c.areaFilter === 'all' ? 'selected' : ''}>Todas as áreas</option>
+                ${getAvailableAreas()
+                  .map((area) => `<option value="${area}" ${c.areaFilter === area ? 'selected' : ''}>${area}</option>`)
+                  .join('')}
+              </select>
+            </div>
           </div>
         </div>
 
@@ -98,8 +111,68 @@ export function renderExam(root) {
   const selected = state.answers[key];
   const isFlagged = !!state.flagged[key];
   const showCorrection = state.submitted || (state.config.feedbackMode === 'immediate' && !!selected);
+  const isStudyView = state.config.feedbackMode === 'immediate' || state.submitted;
+  const guide = studyGuides[key];
 
   const sectionLabel = q.section === 'FG' ? 'Formação Geral' : 'Componente Específico';
+
+  const renderStudyPanel = () => {
+    if (!guide || !isStudyView) return '';
+
+    if (!showCorrection) {
+      return `
+        <details class="study-preview-box">
+          <summary>📚 Prévia do Conteúdo — ${guide.topic}</summary>
+          <div class="study-concept-body">${guide.previewHtml}</div>
+        </details>
+      `;
+    }
+
+    const wrongLetters = q.options
+      .map((o) => o.letter)
+      .filter((l) => l !== q.answer && guide.wrongReasons?.[l]);
+
+    return `
+      <section class="study-panel" aria-label="Sistema de Estudos">
+        <div class="study-panel-header">
+          <span class="tag accent">${guide.area}</span>
+          <strong>${guide.topic}</strong>
+        </div>
+
+        ${
+          selected && !q.annulled && selected !== q.answer && guide.wrongReasons?.[selected]
+            ? `<div class="study-wrong-box">
+                 <strong>Por que a alternativa ${selected} está incorreta:</strong>
+                 <p>${guide.wrongReasons[selected]}</p>
+               </div>`
+            : ''
+        }
+
+        <div class="study-correct-box">
+          <strong>${q.annulled ? 'Sobre a anulação:' : `Por que a alternativa ${q.answer} é a correta:`}</strong>
+          <p>${guide.whyCorrect}</p>
+        </div>
+
+        <div class="study-concept-box">
+          <strong>📚 Prévia do Conteúdo:</strong>
+          ${guide.previewHtml}
+        </div>
+
+        ${
+          !q.annulled && wrongLetters.length > 0
+            ? `<details class="study-others-details">
+                 <summary>Ver por que as demais alternativas estão erradas</summary>
+                 <ul class="study-others-list">
+                   ${wrongLetters
+                     .map((l) => `<li><strong>${l}:</strong> ${guide.wrongReasons[l]}</li>`)
+                     .join('')}
+                 </ul>
+               </details>`
+            : ''
+        }
+      </section>
+    `;
+  };
 
   root.innerHTML = `
     <div class="exam-layout">
@@ -108,6 +181,7 @@ export function renderExam(root) {
           <div class="question-meta">
             <span class="question-title">ENADE ${q.year} — Questão ${String(q.number).padStart(2, '0')}</span>
             <span class="tag">${sectionLabel}</span>
+            ${isStudyView && guide ? `<span class="tag accent">${guide.area}</span>` : ''}
             ${q.annulled ? '<span class="tag warning">ANULADA</span>' : ''}
           </div>
           <button class="btn btn-secondary btn-sm" id="btn-flag">
@@ -159,6 +233,8 @@ export function renderExam(root) {
                </div>`
             : ''
         }
+
+        ${renderStudyPanel()}
 
         <div class="question-footer">
           <div style="display: flex; gap: 0.5rem;">
@@ -328,6 +404,125 @@ export function renderDiscursivas(root, discursivas) {
       `
         )
         .join('')}
+    </div>
+  `;
+}
+
+export function renderMindMap(root) {
+  const q = (state.mindmapSearch || '').trim().toLowerCase();
+
+  const matchesQuery = (node) => {
+    if (!q) return true;
+    return (
+      node.title.toLowerCase().includes(q) ||
+      node.summary.toLowerCase().includes(q) ||
+      node.examTip.toLowerCase().includes(q) ||
+      node.topics.some((t) => t.toLowerCase().includes(q))
+    );
+  };
+
+  const filteredBranches = mindMapBranches
+    .map((branch) => ({
+      ...branch,
+      nodes: branch.nodes.filter(matchesQuery),
+    }))
+    .filter((b) => b.nodes.length > 0);
+
+  root.innerHTML = `
+    <section class="hero-card" style="padding: 1.5rem;">
+      <div class="mm-header">
+        <div>
+          <h1>Mapa Mental — ${enade2026Info.title}</h1>
+          <p>
+            Estrutura de estudos e revisões baseada nas diretrizes oficiais do <strong>ENADE 2026</strong>:
+            ${enade2026Info.structure.fg} + ${enade2026Info.structure.ce} (${enade2026Info.structure.duration}).
+          </p>
+        </div>
+        <div class="mm-normatives">
+          ${enade2026Info.normatives.map((n) => `<span class="tag">${n}</span>`).join('')}
+        </div>
+      </div>
+
+      <div class="mm-competencies">
+        ${enade2026Info.competencies
+          .map(
+            (c) => `
+          <div class="mm-comp-card">
+            <strong>${c.id}</strong>
+            <p>${c.text}</p>
+          </div>`
+          )
+          .join('')}
+      </div>
+
+      <div class="mm-toolbar">
+        <input
+          type="search"
+          id="mindmap-search"
+          class="select-input mm-search"
+          placeholder="Buscar tópico, palavra-chave ou tecnologia (ex.: UML, SQL, COBIT, TTL, PMBOK)..."
+          value="${state.mindmapSearch.replace(/"/g, '&quot;')}"
+        >
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn btn-secondary btn-sm" id="btn-mm-expand">Expandir tudo</button>
+          <button class="btn btn-secondary btn-sm" id="btn-mm-collapse">Recolher tudo</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="mm-root-banner">
+      <span>🧠 Núcleo Central: <strong>ENADE 2026 — Sistemas de Informação (20 Objetos de Conhecimento + Formação Geral)</strong></span>
+    </div>
+
+    <div class="mm-branches">
+      ${
+        filteredBranches.length === 0
+          ? `<div class="hero-card"><p>Nenhum tópico encontrado para "<strong>${state.mindmapSearch}</strong>".</p></div>`
+          : filteredBranches
+              .map(
+                (branch) => `
+          <section class="mm-branch" style="--branch-color: ${branch.color};">
+            <div class="mm-branch-head">
+              <div>
+                <h2>${branch.title}</h2>
+                <small>${branch.subtitle}</small>
+              </div>
+              <span class="tag">${branch.nodes.length} tópico(s)</span>
+            </div>
+
+            <div class="mm-nodes">
+              ${branch.nodes
+                .map(
+                  (node) => `
+                <details class="mm-node" ${q ? 'open' : ''}>
+                  <summary>
+                    <span class="mm-node-title">${node.title}</span>
+                    <span class="tag accent">${node.relatedArea}</span>
+                  </summary>
+                  <div class="mm-node-body">
+                    <p class="mm-node-summary">${node.summary}</p>
+                    <ul class="mm-topics">
+                      ${node.topics.map((t) => `<li>${t}</li>`).join('')}
+                    </ul>
+                    <div class="mm-tip">
+                      <strong>💡 Dica de Revisão:</strong> ${node.examTip}
+                    </div>
+                    <div style="display:flex; justify-content:flex-end;">
+                      <button class="btn btn-primary btn-sm" data-practice-area="${node.relatedArea}">
+                        Praticar questões desta área →
+                      </button>
+                    </div>
+                  </div>
+                </details>
+              `
+                )
+                .join('')}
+            </div>
+          </section>
+        `
+              )
+              .join('')
+      }
     </div>
   `;
 }

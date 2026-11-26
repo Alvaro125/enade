@@ -1,11 +1,12 @@
 const STORAGE_KEY = 'enade_si_simulado_v1';
 
 export const state = {
-  mode: 'objetivas', // 'objetivas' | 'discursivas'
+  mode: 'objetivas', // 'objetivas' | 'discursivas' | 'mindmap'
   view: 'setup', // 'setup' | 'exam' | 'results'
   config: {
     examId: '2021', // '2017' | '2021' | 'both'
     scope: 'all', // 'all' | 'fg' | 'ce'
+    areaFilter: 'all', // 'all' | <area name>
     feedbackMode: 'end', // 'end' | 'immediate'
     useTimer: true,
   },
@@ -17,6 +18,7 @@ export const state = {
   timerSeconds: 4 * 3600,
   timerInterval: null,
   discursivaFilter: 'all', // 'all' | '2017' | '2021'
+  mindmapSearch: '',
   theme: 'light',
 };
 

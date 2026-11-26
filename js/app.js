@@ -12,15 +12,18 @@ import {
   renderExam,
   renderResults,
   renderDiscursivas,
+  renderMindMap,
   updateTimerDom,
 } from './ui.js';
 import { exam2017Objective, exam2017Discursivas } from './data/exam-2017.js';
 import { exam2021Objective, exam2021Discursivas } from './data/exam-2021.js';
+import { studyGuides } from './data/study-guides.js';
 
 const root = document.getElementById('app-root');
 const timerDisplay = document.getElementById('timer-display');
 const navObjetivas = document.getElementById('nav-objetivas');
 const navDiscursivas = document.getElementById('nav-discursivas');
+const navMindmap = document.getElementById('nav-mindmap');
 const btnTheme = document.getElementById('btn-theme');
 const btnHome = document.getElementById('btn-home');
 
@@ -32,6 +35,10 @@ function buildQuestionList(config) {
 
   if (config.scope === 'fg') pool = pool.filter((q) => q.section === 'FG');
   else if (config.scope === 'ce') pool = pool.filter((q) => q.section === 'CE');
+
+  if (config.areaFilter && config.areaFilter !== 'all') {
+    pool = pool.filter((q) => studyGuides[questionKey(q)]?.area === config.areaFilter);
+  }
 
   return pool;
 }
@@ -49,6 +56,7 @@ function applyTheme(theme) {
 function syncTopbar() {
   navObjetivas.classList.toggle('active', state.mode === 'objetivas');
   navDiscursivas.classList.toggle('active', state.mode === 'discursivas');
+  navMindmap.classList.toggle('active', state.mode === 'mindmap');
 
   const showTimer =
     state.mode === 'objetivas' &&
@@ -64,6 +72,11 @@ function render() {
   if (state.mode === 'discursivas') {
     stopTimer();
     renderDiscursivas(root, getAllDiscursivas());
+    return;
+  }
+  if (state.mode === 'mindmap') {
+    stopTimer();
+    renderMindMap(root);
     return;
   }
 
@@ -85,8 +98,13 @@ function render() {
 }
 
 function startNewExam() {
+  const list = buildQuestionList(state.config);
+  if (list.length === 0) {
+    alert('Nenhuma questão encontrada para a combinação de recorte e área selecionada. Tente alterar para "Prova Completa".');
+    return;
+  }
   clearSavedExam();
-  state.questions = buildQuestionList(state.config);
+  state.questions = list;
   state.view = 'exam';
   saveProgress();
   render();
@@ -183,6 +201,17 @@ root.addEventListener('click', (e) => {
   } else if (target.dataset.discFilter) {
     state.discursivaFilter = target.dataset.discFilter;
     render();
+  } else if (target.id === 'btn-mm-expand') {
+    root.querySelectorAll('.mm-node').forEach((d) => { d.open = true; });
+  } else if (target.id === 'btn-mm-collapse') {
+    root.querySelectorAll('.mm-node').forEach((d) => { d.open = false; });
+  } else if (target.dataset.practiceArea) {
+    state.config.examId = 'both';
+    state.config.scope = 'all';
+    state.config.areaFilter = target.dataset.practiceArea;
+    state.config.feedbackMode = 'immediate';
+    state.mode = 'objetivas';
+    startNewExam();
   }
 });
 
@@ -190,8 +219,22 @@ root.addEventListener('change', (e) => {
   const el = e.target;
   if (el.name === 'examId') state.config.examId = el.value;
   else if (el.name === 'scope') state.config.scope = el.value;
+  else if (el.id === 'sel-area') state.config.areaFilter = el.value;
   else if (el.name === 'feedbackMode') state.config.feedbackMode = el.value;
   else if (el.id === 'chk-timer') state.config.useTimer = el.checked;
+});
+
+root.addEventListener('input', (e) => {
+  if (e.target.id === 'mindmap-search') {
+    const pos = e.target.selectionStart;
+    state.mindmapSearch = e.target.value;
+    renderMindMap(root);
+    const input = document.getElementById('mindmap-search');
+    if (input) {
+      input.focus();
+      input.setSelectionRange(pos, pos);
+    }
+  }
 });
 
 navObjetivas.addEventListener('click', () => {
@@ -201,6 +244,11 @@ navObjetivas.addEventListener('click', () => {
 
 navDiscursivas.addEventListener('click', () => {
   state.mode = 'discursivas';
+  render();
+});
+
+navMindmap.addEventListener('click', () => {
+  state.mode = 'mindmap';
   render();
 });
 

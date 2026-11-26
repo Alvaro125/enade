@@ -253,6 +253,137 @@ body {
   color: var(--danger);
 }
 
+.tag.accent {
+  background: rgba(15, 118, 110, 0.14);
+  color: var(--accent);
+}
+
+.select-input {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: inherit;
+}
+
+.select-input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+/* Study Mode Panel */
+.study-preview-box {
+  margin-top: 1.1rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 1rem;
+}
+
+.study-preview-box summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.study-concept-body {
+  margin-top: 0.65rem;
+  font-size: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.study-concept-body ul,
+.study-concept-body ol,
+.study-concept-box ul,
+.study-concept-box ol {
+  padding-left: 1.35rem;
+  margin-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.study-panel {
+  margin-top: 1.25rem;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  font-size: 0.92rem;
+}
+
+.study-panel-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.study-wrong-box {
+  background: var(--danger-soft);
+  border-left: 4px solid var(--danger);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 0.95rem;
+}
+
+.study-wrong-box strong {
+  color: var(--danger);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.study-correct-box {
+  background: var(--success-soft);
+  border-left: 4px solid var(--success);
+  border-radius: 0 8px 8px 0;
+  padding: 0.75rem 0.95rem;
+}
+
+.study-correct-box strong {
+  color: var(--success);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.study-concept-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.study-others-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+.study-others-list {
+  margin-top: 0.55rem;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.88rem;
+}
+
 .option-group {
   display: flex;
   flex-direction: column;
@@ -787,4 +918,167 @@ body {
   border-top: 1px solid var(--border);
   background: var(--surface);
   margin-top: 2rem;
+}
+
+/* Mind Map (ENADE 2026) */
+.mm-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mm-normatives {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.mm-competencies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.mm-comp-card {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+}
+
+.mm-comp-card strong {
+  color: var(--primary);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.mm-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.1rem;
+}
+
+.mm-search {
+  flex: 1;
+  min-width: 240px;
+}
+
+.mm-root-banner {
+  background: var(--primary);
+  color: #fff;
+  text-align: center;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.25rem;
+  font-size: 0.96rem;
+  box-shadow: var(--shadow);
+}
+
+.mm-branches {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 1.25rem;
+}
+
+.mm-branch {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 5px solid var(--branch-color, var(--primary));
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mm-branch-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.mm-branch-head h2 {
+  font-size: 1.05rem;
+  color: var(--branch-color, var(--primary));
+}
+
+.mm-branch-head small {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.mm-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.mm-node {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--branch-color, var(--primary));
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+}
+
+.mm-node summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  list-style: none;
+}
+
+.mm-node summary::-webkit-details-marker {
+  display: none;
+}
+
+.mm-node-title::before {
+  content: '▸ ';
+  color: var(--branch-color, var(--primary));
+}
+
+.mm-node[open] .mm-node-title::before {
+  content: '▾ ';
+}
+
+.mm-node-body {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+}
+
+.mm-node-summary {
+  color: var(--text);
+}
+
+.mm-topics {
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mm-tip {
+  background: var(--warning-soft);
+  border-left: 3px solid var(--warning);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.84rem;
 }
